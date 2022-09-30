@@ -1,0 +1,27 @@
+
+.curd input {
+    margin: 10px;
+}
+
+.curd button {
+    margin: '20px 0px';
+    width: '100%';
+}
+
+.curd select {
+    margin: 10px 10px;
+}
+
+.curd button {
+    width: 100%;
+}
+
+.curd label {
+    font-weight: bold;
+    font-family: 'Changa', sans-serif;
+    /* font-family: 'Edu QLD Beginner', cursive; */
+}
+
+h1 {
+    font-family: 'Dangrek', cursive
+}
