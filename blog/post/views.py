@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
-from .models import Post, Like, Dislike
+from .models import Post, Like, Dislike, Comment
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .forms import CommentForm
 
 
 # Create your views here.
@@ -25,13 +26,29 @@ def show_all_posts(request):
     return render(request, 'post/show_all_posts.html', context=context)
 
 def show_post(request, id):
+    if request.POST:
+        if request.user.is_anonymous:
+            messages.warning(request, 'you should login to write a comment')
+        else:
+            new_comment = Comment()
+            new_comment.user = request.user
+            new_comment.post = Post.get_post(id)
+            new_comment.comment_text = request.POST['comment_text']
+            new_comment.save()
+        return redirect(reverse('post.show', args=[id]))
+
+
     is_like =  Like.get_like(Post.get_post(id), request.user)
     is_dislike = Dislike.get_dislike(Post.get_post(id), request.user)
-    return render(request, 'post/show_post.html', context={'post': Post.get_post(id), 'like': is_like, 'dislike': is_dislike})
+    comments = Comment.objects.filter( post=Post.get_post(id))
+    form = CommentForm()
+    context = {'post': Post.get_post(id), 'form': form, 'like': is_like, 'dislike': is_dislike, 'comments':comments, 
+    'dislikes_num': Dislike.get_post_dislikes(id), 'likes_num': Like.get_post_likes(id)}
+    return render(request, 'post/show_post.html', context=context)
 
 def like_post(request, id):
     if request.user.is_anonymous:
-        messages.warning(request, 'you should login')
+        messages.warning(request, 'you should login to like')
     else:
         new_like = Like()
         user = request.user
@@ -48,7 +65,7 @@ def like_post(request, id):
 
 def unlike_post(request, id):
     if request.user.is_anonymous:
-        messages.warning(request, 'you should login')
+        messages.warning(request, 'you should login to dislike')
     else:
         Like.get_like(Post.get_post(id), request.user).delete()
     return redirect(reverse('post.show', args=[id]))

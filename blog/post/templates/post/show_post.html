@@ -1,6 +1,7 @@
 {% extends 'base/base.html'%}
 
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
@@ -20,14 +21,17 @@
                 <div style="float:right; margin-right: 10px;">
                   {% if like %}
                   <a href="{{post.unliked}}" id="like"><img src="{% static 'post/images/liked.png' %}" alt="unlike" width="40px" height="40px" style=" border:0px;"></a>
+      
                   {% else %}
                     <a href="{{post.liked}}" id="like"><img src="{% static 'post/images/like.png' %}" alt="like" width="40px" height="40px" style=" border:0px;"></a>
                   {% endif %}
+                  <span style="margin-right: 5px;">{{ likes_num }}</span>
                   {% if dislike %}
                   <a href="{{post.undisliked}}" id="like"><img src="{% static 'post/images/disliked.png' %}" alt="unlike" width="40px" height="40px" style=" border:0px;"></a>
                   {% else %}
                     <a href="{{post.disliked}}" id="like"><img src="{% static 'post/images/dislike.png' %}" alt="like" width="40px" height="40px" style=" border:0px;"></a>
                   {% endif %}
+                  <span>{{ dislikes_num }}</span>
                 </div>
                 
               </div><!-- .image-block-inner -->
@@ -37,7 +41,50 @@
         </div>
       </section>
 
-      
+       
 
+    <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+      <form method="POST" enctype="multipart/form-data" class="curd">{% csrf_token %}
+      <div class="d-flex flex-start w-100">
+        <img class="rounded-circle shadow-1-strong me-3"
+          src="{{user.profile.picture.url}}" alt="avatar" width="40"
+          height="40" />
+        <div class="form-outline w-100">
+            {{form|crispy}}
+          <label class="form-label" for="textAreaExample"></label>
+        </div>
+      </div>
+      <div class="float-end mt-2 pt-1">
+        <button type="submit" class="btn btn-primary btn-sm">Add Post</button>
+      </div>
+    </form>
+    </div>
+
+
+    <br>
+    <br>
+    {% for comment in comments %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <p class="comment_text">{{comment}}</p>
+
+          <div class="d-flex justify-content-between">
+            <div class="d-flex flex-row align-items-center">
+              <img src="{{comment.user.profile.picture.url}}" alt="avatar" width="25"
+                height="25" />
+   
+              <a class="small mb-0 ms-2" href="{{ comment.user.profile.get_profile_url }}" >{{comment.user}}</a>
+            </div>
+            <div class="d-flex flex-row align-items-center">
+              <p class="small text-muted mb-0">Upvote?</p>
+              <i class="far fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
+              <p class="small text-muted mb-0">3</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+      
+      <script src="{% static 'post/js/script.js' %}"></script>
 
 {% endblock %}

@@ -50,6 +50,10 @@ class Like(models.Model):
         except:
             return None
 
+    @classmethod 
+    def get_post_likes(cls,id): 
+        return len(list(cls.objects.filter(post=id)))
+
 
 class Dislike(models.Model):
     post = models.ForeignKey(Post, related_name='post_dislike', on_delete=models.CASCADE)
@@ -61,3 +65,23 @@ class Dislike(models.Model):
             return cls.objects.get(post=post, user=user)
         except:
             return None
+
+    @classmethod 
+    def get_post_dislikes(cls,id): 
+        return len(list(cls.objects.filter(post=id)))
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='post_comment', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_comment', on_delete=models.CASCADE)
+    comment_text = models.TextField()
+
+    def __str__(self) -> str:
+        return self.comment_text
+
+    @classmethod
+    def get_dislike(cls, post, user):
+        try:
+            return cls.objects.get(post=post, user=user)
+        except:
+            return None
+

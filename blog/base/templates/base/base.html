@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Changa&family=Dangrek&family=Edu+QLD+Beginner:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'post/css/show_all_style.css'%}">
     <link rel="stylesheet" href="{% static 'base/css/style.css'%}">
-    <link rel="stylesheet" href="{% static 'account/css/style.css'">
+    
     
 </head>
 <body>
@@ -55,12 +55,10 @@
       </nav>
       {% if messages %}
         <ul class="messages">
+
           {% for message in messages %}
         <div class="container-fluid p-0">
           <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="True">&times;</span>
-            </button>
             {{ message }}
           </div>
         </div>
