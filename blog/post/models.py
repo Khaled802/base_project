@@ -1,6 +1,8 @@
 
+from tkinter.messagebox import NO
 from django.db import models
 from django.shortcuts import get_object_or_404, reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Post(models.Model):
@@ -21,6 +23,41 @@ class Post(models.Model):
         return reverse('post.show', args=[self.id])
 
 
+    def liked(self):
+         return reverse('post.like', args=[self.id]) 
+    
+    def unliked(self):
+        return reverse('post.unlike', args=[self.id]) 
+
+    def disliked(self):
+         return reverse('post.dislike', args=[self.id]) 
+    
+    def undisliked(self):
+        return reverse('post.undislike', args=[self.id]) 
+
     def __str__(self) -> str:
         return self.title
 
+
+class Like(models.Model):
+    post = models.ForeignKey(Post, related_name='post_like', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_like', on_delete=models.CASCADE)
+
+    @classmethod
+    def get_like(cls, post, user):
+        try:
+            return cls.objects.get(post=post, user=user)
+        except:
+            return None
+
+
+class Dislike(models.Model):
+    post = models.ForeignKey(Post, related_name='post_dislike', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_dislike', on_delete=models.CASCADE)
+
+    @classmethod
+    def get_dislike(cls, post, user):
+        try:
+            return cls.objects.get(post=post, user=user)
+        except:
+            return None
