@@ -29,3 +29,7 @@ for (let index = 0; index < comments.length; index++) {
     comment.textContent = new_word;
     
 }
+
+
+var comment_text = document.getElementById('id_comment_text');
+comment_text.setAttribute('placeholder', 'write comment')

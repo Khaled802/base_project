@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, reverse
 # Create your models here.
 class CustomUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    picture = models.ImageField(upload_to='images/', default='default.bng')
+    picture = models.ImageField(upload_to='images/', default='/images/default.png')
     bio = models.TextField(default='I am user')
 
     def get_profile_url(self):

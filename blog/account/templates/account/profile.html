@@ -1,5 +1,8 @@
 {% extends "base/base.html" %}
+
 {% load static %}
+{% load crispy_forms_tags %}
+
 {% block content %}
 <link rel="stylesheet" href="{% static 'account/css/style.css'%}">
 <div class="content-section">
@@ -14,7 +17,7 @@
                  <div class="d-flex flex-row justify-content-center align-items-center gap-2">
                      </div> <div class="d-flex flex-row justify-content-center align-items-center mt-3">
                         </div> 
-                        <div class=" d-flex mt-2"> <button class="btn1 btn-dark">Edit Profile</button> </div> 
+                        <div class=" d-flex mt-2"> <button class="btn1 btn-dark" id="edit">Edit Profile</button> </div> 
                         <div class="text mt-3"> 
                         <span> {{user.profile.bio}} </span> 
                     </div> 
@@ -28,6 +31,21 @@
                         </div> 
                     </div> 
                 </div>
+               
+               
 </div>
 </div>
+
+
+<div style="width: 60%; text-align: center; margin: auto;" id="form">
+    <form method="POST" enctype="multipart/form-data" class="curd">
+        {% csrf_token %}
+    
+        {{ form|crispy }}
+         <button type="submit" class="btn btn-primary">Add Post</button>
+    </form>
+</div>
+
+
+<script src="{% static 'account/js/script.js' %}"></script>
 {% endblock content %}

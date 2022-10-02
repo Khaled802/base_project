@@ -21,5 +21,5 @@ urlpatterns = [
     path('register/', user_register, name='account.register'),
     path('profile/', user_profile, name='account.profile'),
     path('logout/', logout_view, name="account.logout"),
-    path('show_profile/<int:id>', show_profile, name='account.show_profile')
+    path('show_profile/<int:id>', show_profile, name='account.show_profile'),
 ]
