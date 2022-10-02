@@ -1,0 +1,55 @@
+{% extends 'base/base.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% block content %}
+    <br>
+
+    <div class="row">
+        
+        <div class="col-md-7">
+            <h3>List of Posts</h3>
+            <hr>
+            
+            <div class="card card-body">
+                <a class="btn btn-primary  btn-sm btn-block" href="{% url 'CreatePost' %}">Add Post</a>
+
+                <table class="table table-sm">
+                    
+                    <tr>
+                        <th>Title</th>
+                        <th>Created At</th>
+                        <th>View</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    {% for post in posts %}
+                    
+                    <tr>
+                        <td> {{post.title}} </td>
+                        <td> {{post.created_time}} </td>
+                        <td><a class="btn btn btn-success" href="{% url 'view_post' post.id %}"> View </a></td>
+                        <td><a class="btn btn btn-warning" href="{% url 'edit_post' post.id %}"> Edit </a></td>
+                        <td><a class="btn btn btn-danger" href="{% url 'delete_post' post.id %}"> Delete </a></td>
+                    </tr>
+                    
+                    {% endfor %}
+
+                    
+                </table>
+                
+            </div>
+
+        </div>
+    
+    </div>
+        
+
+    {% endblock %}
+</body>
+</html>

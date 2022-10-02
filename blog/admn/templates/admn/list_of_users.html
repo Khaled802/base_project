@@ -1,0 +1,62 @@
+{% extends 'base/base.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% block content %}
+    <br>
+
+    <div class="row">
+        
+        <div class="col-md-7">
+            <h3>List of Users</h3>
+            <hr>
+            
+            <div class="card card-body">
+                <table class="table table-sm">
+                    
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Make Admin</th>
+                        <th>Block User</th>
+                    </tr>
+                    {% for i in users %}
+                    
+                    {% if user.id != i.id %}    
+                    <tr>
+                        <td> {{i.username}} </td>
+                        <td> {{i.email}} </td>
+                        {% if i.is_superuser %}    
+                        <td> <u> Already_Admin </u> </td>
+                        <td> <u> Not_Avaliable </u> </td>
+                        {% else %}
+                        <td><a class="btn btn btn-info" href="{% url 'be_admin' i.id %}"> Admin </a></td>
+                        {% if i.is_active %}
+                        <td><a class="btn btn btn-danger" href="{% url 'block_user' i.id %}"> Block </a></td>
+                        {% else %}
+                        <td><a class="btn btn btn-warning" href="{% url 'unblock_user' i.id %}"> Unblock </a></td>
+                        {% endif %}
+                        {% endif %}
+                    </tr>
+                    {% endif %}
+                    
+                    {% endfor %}
+
+                    
+                </table>
+                
+            </div>
+
+        </div>
+    
+    </div>
+        
+
+    {% endblock %}
+</body>
+</html>

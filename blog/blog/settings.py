@@ -60,7 +60,10 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
 
     # added ahmed
-    'categories.apps.CategoriesConfig'
+    'categories.apps.CategoriesConfig',
+
+    # added mohamed
+    'admn.apps.AdmnConfig'
 ]
 
 MIDDLEWARE = [
