@@ -3,6 +3,7 @@ from tkinter.messagebox import NO
 from django.db import models
 from django.shortcuts import get_object_or_404, reverse
 from django.contrib.auth.models import User
+from categories.models import Category
 
 # Create your models here.
 class Post(models.Model):
@@ -10,6 +11,7 @@ class Post(models.Model):
     details = models.TextField()
     picture = models.ImageField(upload_to='images/')
     created_time = models.DateTimeField(auto_now_add=True)
+    category=models.ForeignKey(Category , null = True , blank=True , on_delete=models.CASCADE , related_name='post_category')
     
     @classmethod
     def get_all_posts(cls):
@@ -37,6 +39,10 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    @classmethod
+    def related_posts(cls , _category):
+        return cls.objects.filter(category= _category)
 
 
 class Like(models.Model):
@@ -84,4 +90,6 @@ class Comment(models.Model):
             return cls.objects.get(post=post, user=user)
         except:
             return None
+
+    
 

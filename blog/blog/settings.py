@@ -58,6 +58,9 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'base.apps.BaseConfig',
     'account.apps.AccountConfig',
+
+    # added ahmed
+    'categories.apps.CategoriesConfig'
 ]
 
 MIDDLEWARE = [
