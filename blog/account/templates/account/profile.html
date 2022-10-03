@@ -27,7 +27,7 @@
                          <span><i class="fa fa-instagram"></i></span>
                           <span><i class="fa fa-linkedin"></i></span>
                          </div> <div class=" px-2 rounded mt-4 date "> 
-                            <span class="join">Joined May,2021</span> 
+                            <span class="join">Joined {{ user.date_joined|date}}</span> 
                         </div> 
                     </div> 
                 </div>
@@ -45,6 +45,9 @@
          <button type="submit" class="btn btn-primary">Add Post</button>
     </form>
 </div>
+
+
+
 
 
 <script src="{% static 'account/js/script.js' %}"></script>

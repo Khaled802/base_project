@@ -5,6 +5,7 @@ from .models import Post, Like, Dislike, Comment
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import CommentForm
+from admn.models import ForbiddenWord
 
 
 # Create your views here.
@@ -43,7 +44,7 @@ def show_post(request, id):
     comments = Comment.objects.filter( post=Post.get_post(id))
     form = CommentForm()
     context = {'post': Post.get_post(id), 'form': form, 'like': is_like, 'dislike': is_dislike, 'comments':comments, 
-    'dislikes_num': Dislike.get_post_dislikes(id), 'likes_num': Like.get_post_likes(id)}
+    'dislikes_num': Dislike.get_post_dislikes(id), 'likes_num': Like.get_post_likes(id), 'forbidden_words':ForbiddenWord.get_all() }
     return render(request, 'post/show_post.html', context=context)
 
 def like_post(request, id):

@@ -7,6 +7,7 @@ from django.views.generic.edit import UpdateView,CreateView
 from post.views import CreatePost
 from django.urls import reverse_lazy,reverse
 from django.contrib.admin.views.decorators import user_passes_test
+from .models import ForbiddenWord
 
 
 
@@ -157,3 +158,11 @@ def undislike_post(request, id):
     else:
         Dislike.get_dislike(Post.get_post(id), request.user).delete()
     return redirect(reverse('view_post', args=[id]))
+
+
+
+class AddForbiddenWord(CreateView):
+    model = ForbiddenWord
+    fields = '__all__'
+    template_name = 'admn/add_forbiddenword.html'
+    success_url = reverse_lazy('add_forbiddenword')
