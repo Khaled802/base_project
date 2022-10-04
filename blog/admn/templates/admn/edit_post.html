@@ -1,11 +1,16 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div style="width: 60%; text-align: center; margin: auto;">
+
+<div class="container" style="margin: 10px auto;">
+    <div class="title">add forbidden word</div>
     <form method="POST" enctype="multipart/form-data" class="curd">
         {% csrf_token %}
     
         {{ form|crispy }}
+        
+        <p style="color: gray;">Add tags to your post: </p>
+        <p style="color: gray;"> Add tags in this format: #tag1 #tag2 #tag3 ....</p>
          <button type="submit" class="btn btn-primary">Edit Post</button>
     </form>
 </div>

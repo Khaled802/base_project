@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
-from .models import Post, Like, Dislike, Comment
+from .models import Post, Like, Dislike, Comment, Tag, posts_tags
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import CommentForm
@@ -23,6 +23,20 @@ class CreatePost(CreateView):
 
     
 def show_all_posts(request):
+    context={}
+    if(request.POST):
+        if(request.POST["post_title"]):
+            passed_title = request.POST["post_title"]
+            titled_post= Post.get_post_by_title(passed_title)
+            context["titled_post"]=titled_post
+
+        if(request.POST["post_tag"]):
+            passed_tag = request.POST["post_tag"]
+            tagged_posts= posts_tags.get_posts(passed_tag)
+            context["tagged_posts"]=tagged_posts
+        
+        return render(request , 'post/show_search.html' , context)
+
     context = {'title': 'Posts', 'posts': Post.get_all_posts()}
     return render(request, 'post/show_all_posts.html', context=context)
 
@@ -43,8 +57,10 @@ def show_post(request, id):
     is_dislike = Dislike.get_dislike(Post.get_post(id), request.user)
     comments = Comment.objects.filter( post=Post.get_post(id))
     form = CommentForm()
+    tags = posts_tags.get_tags(Post.get_post(id))
     context = {'post': Post.get_post(id), 'form': form, 'like': is_like, 'dislike': is_dislike, 'comments':comments, 
-    'dislikes_num': Dislike.get_post_dislikes(id), 'likes_num': Like.get_post_likes(id), 'forbidden_words':ForbiddenWord.get_all() }
+    'dislikes_num': Dislike.get_post_dislikes(id), 'likes_num': Like.get_post_likes(id), 'forbidden_words':ForbiddenWord.get_all(),
+    'tags': tags }
     return render(request, 'post/show_post.html', context=context)
 
 def like_post(request, id):

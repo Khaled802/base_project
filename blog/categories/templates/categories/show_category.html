@@ -1,21 +1,24 @@
 {% extends 'base/base.html'%}
 {% load static %}
 {% block content %}
+<!-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> -->
+<!-- <link rel="stylesheet" href="{% static 'categories/css/show_cat.css'%}"> -->
 
-<div class="card mb-3" style="max-width: 540px; margin:0px auto;">
+<div class="card mb-3" style="max-width: 540px; margin:10px auto; height: auto;">
   <div class="row g-0">
     <div class="col-md-4">
       <img src="{{ category.picture.url }}" class="img-fluid rounded-start" alt="{{ category }}">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">{{ category.title }}</h5>
-        <p class="card-text">{{ category.details }}</p>
-        <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-        <h4><a href="{{ category.get_subscribe_url }}">
-          {% if subscribe %} Unsubscribe </a></h4>
-          {% else %} Subscribe</a></h4>
-          {% endif %}
+        <h5 class="card-title" style="color: black;">{{ category.title }}</h5>
+        <p class="card-text" style="color: blueviolet;">{{ category.details }}</p>
+        {% if subscribe %}
+          <a type="button" class="btn btn-warning" href="{{ category.get_subscribe_url }}" >Unsubscribe</a>
+        {% else %}
+          <a type="button" class="btn btn-success" href="{{ category.get_subscribe_url }}" >Subscribe</a>
+        {% endif %}
+          
       </div>
     </div>
   </div>
@@ -23,22 +26,23 @@
 
 
 {% if subscribe %} 
-  <div class="row row-cols-1 row-cols-md-3 g-4" style="margin: auto;">
+<div class="cacontainer">
   {% for post in related_posts %}
-  <div class="col" >
-    <div class="card"  style="height:390px;">
-      
-      <img src="{{ post.picture.url }}" class="card-img-top" alt="{{ post }}" style="height:200px; width:400px; margin: 20px auto;">
-      <div class="card-body">
-        <h5 class="card-title" style="text-align:center ;"><a href="{{post.get_post_url}}">{{ post.title }}</a></h5>
-        <p class="card-text">
-          <a href="{{post.get_post_url}}" class="read-more">Read more >></a>
-        </p>
-      </div>
-    </div>
+  
+    <div class="card">
+      <a href="{{post.get_post_url}}">
+        <img src="{{ post.picture.url }}" alt="" >
+        <div class="intro">
+            <h4>{{ post.title|slice:":33" }}..</h4>
+            <p style="size: 0.5em; margin:auto; top:50%">{{ post.title }}</p>
+        </div>
+
+      </a>
+     
   </div>
+
   {% endfor %}
-</div>
+s
 {% endif %}
 
 

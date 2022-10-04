@@ -1,14 +1,18 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div style="width: 60%; text-align: center; margin: auto;">
+
+
+<div class="container" style="margin: 10px auto;">
+    <div class="title">Create Category</div>
     <form method="POST" enctype="multipart/form-data" class="curd">
         {% csrf_token %}
     
         {{ form|crispy }}
-         <button type="submit" class="btn btn-primary">Add category</button>
+        <div class="button">   
+            <input type="submit" value="Add Category">
+        </div>
     </form>
 </div>
-
 {% endblock content%}
 

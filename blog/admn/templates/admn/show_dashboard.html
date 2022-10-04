@@ -1,69 +1,38 @@
 {% extends 'base/base.html'%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    {% block content %}
 
-        <div class="row">
-            
-            <div class="col-sm-6">
-            
-                <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">Users</h5>
-                <p class="card-text">Here you can make users Admins, Block and Unblock them.</p>
-                <a href="{% url 'list_of_users' %}" class="btn btn-primary">Manage Users</a>
-                </div>
-                </div>
-            
-             </div>
-            
-        <div class="col-sm-6">
-            
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">Posts</h5>
-                <p class="card-text">Here you can Add, Access, Edit and Delete Posts.</p>
-                <a href="{% url 'list_of_posts' %}" class="btn btn-primary">Manage Posts</a>
-                </div>
-            </div>
-            
-        </div>
-        </div>
-        <div class="row">        
-            <!-- start crud operations of the category -->
-            <div class="col-sm-6">
-            
-                <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">Categories</h5>
-                <p class="card-text">Here you can Add, Access, Edit and Delete Categories.</p>
-                <a href="{% url 'categories.manage.list'%}" class="btn btn-primary">Manage Categories</a>
-                </div>
-                </div>
-            
-             </div>
-            <!-- end crud operations of the category -->
-        
-        <div class="col-sm-6">
-            <!-- start crud operations of the Forbidden_words -->
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">Forbidden Words</h5>
-                <p class="card-text">Here you can Add, Access, Edit and Delete Forbidden Words.</p>
-                <a href="{% url 'add_forbiddenword' %}" class="btn btn-primary">Manage Forbidden Words</a>
-                </div>
-            </div>
-            <!-- end crud operations of the Forbidden_words -->
+{% load static %}
 
+{% block content %}
+<link rel="stylesheet" href="{% static 'admn/css/manage.css' %}">
+    <div class="bigcontainer">
+        <div class="container1">
+            <h3>User</h3>
+            <p>here you can make user admin , block , unblock user</p>
+            <div>
+                <a href="{% url 'list_of_users' %}" class="btn">manage users</a>
+            </div>  
         </div>
+        <div class="container2">
+            <h3>Categories</h3>
+            <p>here you can add , access , edit & delete categories</p>
+            <div>
+                <a href="{% url 'categories.manage.list'%}" class="btn">manage categories</a>
+            </div>  
         </div>
+        <div class="container3">
+            <h3>Posts</h3>
+            <p>here you can add , access , edit & delete posts</p>
+            <div>
+                <a href="{% url 'list_of_posts' %}" class="btn">manage posts</a>
+            </div>  
+        </div>
+        <div class="container4">
+            <h3>Forbidden words</h3>
+            <p>here you can add , access , edit & delete forbidden words</p>
+            <div>
+                <a href="{% url 'add_forbiddenword' %}" class="btn">manage forbidden words</a>
+            </div>  
+        </div>
+    </div>
 
 {% endblock %}
-</body>
-</html>

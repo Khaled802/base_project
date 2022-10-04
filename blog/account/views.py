@@ -7,6 +7,7 @@ from .forms import UserRegister, EditProfile
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django import views
 
 # Create your views here.
 def user_register(request):
@@ -37,7 +38,7 @@ def user_profile(request):
 
     edit = request.user.profile
     new_form = EditProfile(instance=edit)
-    return render(request, 'account/profile.html', context={'title':'user', 'form':new_form})
+    return render(request, 'account/profile.html', context={'title':request.user, 'form':new_form})
 
 
 def show_profile(request, id):
@@ -58,5 +59,9 @@ def create_profile(user):
     profile = CustomUser()
     profile.user = user
     profile.save()
+
+
+
+
 
 

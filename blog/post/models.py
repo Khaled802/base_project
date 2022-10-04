@@ -19,6 +19,7 @@ class Post(models.Model):
 
     @classmethod 
     def get_post(cls, id):
+        print('hi')
         return get_object_or_404(cls, id=id)
 
     def get_post_url(self):
@@ -43,6 +44,51 @@ class Post(models.Model):
     @classmethod
     def related_posts(cls , _category):
         return cls.objects.filter(category= _category)
+    
+    @classmethod
+    def get_post_by_title(cls , passed_title):
+        try:
+            return cls.objects.get(title = passed_title)
+        except:
+            return None
+
+       
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+    
+    def __str__(self) -> str:
+        return self.name
+
+    @classmethod
+    def get_all_tags(cls):
+        return cls.objects.all()
+    @classmethod
+    def get_tag(cls , passed_tag):
+        try:
+            return Tag.objects.get(name = passed_tag)
+        except:
+            return None
+
+
+
+class posts_tags(models.Model):
+    post = models.ForeignKey(Post , related_name='posts_tags' , on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag , related_name='posts_tags' , on_delete=models.CASCADE)
+    
+    @classmethod
+    def get_posts(cls , tag_name ):
+        tag=Tag.get_tag(tag_name)
+        try:
+            return cls.objects.filter(tag=tag )
+        except:
+            return None
+
+    @classmethod
+    def get_tags(cls , post ):
+        try:
+            return cls.objects.filter(post=post)
+        except:
+            return None
 
 
 class Like(models.Model):

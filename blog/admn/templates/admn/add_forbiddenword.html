@@ -2,15 +2,21 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form method="POST" enctype="multipart/form-data" class="curd">
- 
-    <!-- Security token -->
-    {% csrf_token %}
- 
-    <!-- Using the formset -->
-    {{ form|crispy }}
-     
-    <input type="submit" value="Submit">
-</form>
+
+<div class="container" style="margin: 10px auto;">
+    <div class="title">add forbidden word</div>
+        <form method="POST" enctype="multipart/form-data" class="curd">
+        
+            <!-- Security token -->
+            {% csrf_token %}
+        
+            <!-- Using the formset -->
+            {{ form|crispy }}
+            <div class="button">   
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+</div>
+    
 
 {% endblock %}

@@ -8,6 +8,8 @@ from post.views import CreatePost
 from django.urls import reverse_lazy,reverse
 from django.contrib.admin.views.decorators import user_passes_test
 from .models import ForbiddenWord
+from post.models import posts_tags, Tag
+from .forms import PostModelForm
 
 
 
@@ -19,7 +21,7 @@ def check_admin(user):
 # show the dashboard
 @user_passes_test(check_admin)
 def show_dashboard(request):
-    return render(request,'admn/show_dashboard.html')
+    return render(request,'admn/show_dashboard.html', context={'title': 'manage dashboards'})
 
 # list of all users 
 @user_passes_test(check_admin)
@@ -91,17 +93,17 @@ def delete_post(request,id):
     return redirect('list_of_posts')
 
 # edit a post --> class-based view 
-class edit_post(UpdateView):
-    model = Post
-    fields = '__all__'
-    template_name = 'admn/edit_post.html'
-    success_url = reverse_lazy('list_of_posts')
+# class edit_post(UpdateView):
+#     model = Post
+#     fields = '__all__'
+#     template_name = 'admn/edit_post.html'
+#     success_url = reverse_lazy('list_of_posts')
     
-    extra_context = {'title': 'Edit post'}
-    def get_context_data(self, **kwargs):
-        context = super(UpdateView, self).get_context_data(**kwargs)
-        context.update(self.extra_context)
-        return context
+#     extra_context = {'title': 'Edit post'}
+#     def get_context_data(self, **kwargs):
+#         context = super(UpdateView, self).get_context_data(**kwargs)
+#         context.update(self.extra_context)
+#         return context
 
 # view the post 
 def view_post(request, id):
@@ -166,3 +168,39 @@ class AddForbiddenWord(CreateView):
     fields = '__all__'
     template_name = 'admn/add_forbiddenword.html'
     success_url = reverse_lazy('add_forbiddenword')
+
+
+
+def edit_post(request, id):
+    selected_post=Post.get_post(id)
+
+    if(request.POST):
+        old_posts=posts_tags.objects.filter(post=selected_post)
+        old_posts.delete()
+
+        form=PostModelForm(request.POST , request.FILES , instance=selected_post)
+        form.save()
+
+        tags=request.POST["tags"].split()
+        for tag in tags:
+            tagObj = Tag.get_tag(tag)
+            if( not tagObj):
+                tagObj=Tag()
+                tagObj.name=tag
+                tagObj.save()
+            p=posts_tags()
+            p.post=selected_post
+            p.tag=tagObj
+            p.save()
+        return redirect("list_of_posts")
+
+    form=PostModelForm(instance=selected_post)
+    return render(request , "admn/edit_post.html" , context={"form":form})
+
+# view the post 
+def view_post(request, id):
+    is_like =  Like.get_like(Post.get_post(id), request.user)
+    is_dislike = Dislike.get_dislike(Post.get_post(id), request.user)
+    post = Post.get_post(id)
+    tags=posts_tags.get_tags(post)
+    return render(request, 'admn/view_post.html', context={'post':post , "tags":tags ,'like': is_like, 'dislike': is_dislike})

@@ -24,8 +24,9 @@ from django.shortcuts import reverse
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('post/', include('post.urls')),
-    path('accounts/', include('account.urls')),
-    path('account/', include('django.contrib.auth.urls')),
+    path('account/', include('account.urls')),
+     path('accounts/', include('account.urls')),
+    # path('account/', include('django.contrib.auth.urls')),
     path('categories/', include('categories.urls')),
     # path('admn/', staff_member_required(include('admn.urls'))),
     path('admn/', include('admn.urls')),

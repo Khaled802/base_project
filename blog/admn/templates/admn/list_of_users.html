@@ -1,19 +1,14 @@
 {% extends 'base/base.html'%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    {% block content %}
-    <br>
 
-    <div class="row">
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'account/css/vprofile.css' %}">
+
+    <div class="title" style="text-align: center;"><h2>Users List</h2></div>
+
         
-        <div class="col-md-7">
-            <h3>List of Users</h3>
+        <div class="col-md-7" style=" display:block; text-align: center; padding-left: 300px; width: 1200px;">
             <hr>
             
             <div class="card card-body">
@@ -53,10 +48,5 @@
             </div>
 
         </div>
-    
-    </div>
-        
 
-    {% endblock %}
-</body>
-</html>
+{% endblock %}

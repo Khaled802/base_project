@@ -153,3 +153,7 @@ MEDIA_URL = '/media/'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# 
+TEMPLATES[0]['OPTIONS']['context_processors'].append("categories.context_processors.categories_processor")
+

@@ -1,11 +1,158 @@
 {% extends 'base/base.html'%}
 
 {% load static %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
 
 
+
+<link rel="stylesheet" href="{% static 'post/css/post.css' s%}">
+<link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css> 
+<div class="container" style="max-height: none; margin: 10px auto;">
+  <div class="top_bar">
+      <div class="profile_img">
+          <a href="{{ post.category.get_category_url }}">
+            <img src="{{ post.category.picture.url }}" alt="">
+          </a>
+          <h3><span>{{ post.title }}</span></h3>
+      </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="main_img">
+      <img src="{{ post.picture.url }}" alt="">
+  </div>
+  <div class="footer">
+      <div class="wrapper">
+          <div class="like">
+            {% if like %}
+            <a href="{{post.unliked}}" id="like" >
+              <i id="li" class="fas fa-thumbs-up" style="color: blue;"></i>
+            </a>
+            {% else %}    
+            <a href="{{post.liked}}" id="like">
+              <i id="li" class="fas fa-thumbs-up" style="color: grey;"></i>
+            </a>
+            {% endif %}
+    
+          </div>
+          <div class="dislike">
+                {% if dislike %}
+                  <a href="{{post.undisliked}}" id="like">
+                    <i id="di" class="fas fa-thumbs-down" style="color: red;"></i>
+                  </a>
+                {% else %}
+                    <a href="{{post.disliked}}" id="like">
+                      <i id="di" class="fas fa-thumbs-down" style="color: grey;"></i>
+                    </a>
+                {% endif %}
+          </div>
+      </div>
+      
+      <div class="likeCount">
+          <p>{{ likes_num }} likes</p>
+      </div>
+      <div class="content">
+          <p>{{ post.details }}</p>
+          {% for tag in tags %}
+          <span>{{ tag.tag }}</span> 
+          {% endfor %}
+      </div>
+      <div class="comments_box">
+       
+      </div>
+  </div>
+  <br>
+  <div class="container" style="margin: 10px auto; border: 3px solid purple;">
+  <form method="POST" enctype="multipart/form-data" class="curd">{% csrf_token %}
+    <div class="d-flex flex-start w-100">
+      <img class="rounded-circle shadow-1-strong me-3"
+        src="{{user.profile.picture.url}}" alt="avatar" width="10px"
+        height="10px"  style="width: 40px; height: 40px;"/>
+      <div class="form-outline w-100">
+          {{form|crispy}}
+        <label class="form-label" for="textAreaExample"></label>
+        <br>
+        <div class="float-end mt-2 pt-1">
+          <button type="submit" class="btn btn-primary btn-sm">Add Comment</button>
+        </div>
+      
+      </div>
+      
+    </div>
+    
+  </form>
+
+</div>
+
+  
+  <br>
+  <hr>
+  {% for comment in comments %}
+    <div class="card mb-4" style="height:auto; box-shadow: 5px 5px 20px black;">
+      <div class="card-body">
+        <p class="comment_text">{{comment}}</p>
+
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-row align-items-center">
+            <img src="{{comment.user.profile.picture.url}}" style="width: 40px; height: 40px;"/>
+ 
+            <a class="small mb-0 ms-2" href="{{ comment.user.profile.get_profile_url }}" >{{comment.user}}</a>
+          </div>
+          <div class="d-flex flex-row align-items-center">
+            {% if comment.user.is_superuser %}
+            <p class="small text-muted mb-0">admin</p>
+            {% else %}
+            <p class="small text-muted mb-0">member</p>
+            {% endif %}
+            <i class="far fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
+            <p class="small text-muted mb-0">3</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  <script>
+    var forbidden_words = JSON.parse("{{forbidden_words|escapejs}}".replaceAll("'",'"'));
+    console.log(typeof forbidden_words)
+    var comments = document.getElementsByClassName('comment_text')
+
+      for (let index = 0; index < comments.length; index++) {
+          const comment = comments[index]
+          const text = comment.textContent;
+          
+          var words_list = text.split(' ');
+          var new_word = ''
+          
+          for (let index = 0; index < words_list.length; index++) {
+              const element = words_list[index];
+              console.log(forbidden_words[element])
+              if (index) {
+                  new_word += ' ';
+              }
+              console.log(forbidden_words[element.toLowerCase()] !== undefined)
+              console.log(forbidden_words[element.toLowerCase()], element)
+              console.log(forbidden_words['****'])
+              
+              if (forbidden_words[element.toLowerCase()] !== undefined) {
+                  new_word +=  forbidden_words[element.toLowerCase()];
+              } else {
+                  new_word += element;
+              }
+              
+          }
+          comment.textContent = new_word;
+          
+      }
+  </script>
+    
+    <script src="{% static 'post/js/script.js' %}"></script> 
+</div>
+<!-- 
     <section class="news pt-0">
         <div class="container mt-md-5">
           <ul class="row d-lg-flex list-unstyled image-block justify-content-center px-lg-0 mx-lg-0">
@@ -15,13 +162,12 @@
                   <img src="{{ post.picture.url }}" alt="{{ post }}" class="img-responsive w-100"></a>
                 <span class="hp-posts-cat">Awards</span>
                 <h4 class="mt-3"><a href="">{{ post.title }}</a></h4>
-                <!--  <p></p> -->
+                
                 <p>{{ post.details }}</p>
                 <hr>
                 <div style="float:right; margin-right: 10px;">
                   {% if like %}
                   <a href="{{post.unliked}}" id="like"><img src="{% static 'post/images/liked.png' %}" alt="unlike" width="40px" height="40px" style=" border:0px;"></a>
-      
                   {% else %}
                     <a href="{{post.liked}}" id="like"><img src="{% static 'post/images/like.png' %}" alt="like" width="40px" height="40px" style=" border:0px;"></a>
                   {% endif %}
@@ -34,10 +180,11 @@
                   <span>{{ dislikes_num }}</span>
                 </div>
                 
-              </div><!-- .image-block-inner -->
+              </div>
             </li>
            
           </ul>
+          
         </div>
       </section>
 
@@ -70,7 +217,6 @@
     {% for comment in comments %}
       <div class="card mb-4">
         <div class="card-body">
-          <!-- <input type="text" placeholder="{{comment}}" name="comment"> -->
           <p class="comment_text">{{comment}}</p>
 
           <div class="d-flex justify-content-between">
@@ -128,6 +274,6 @@
         }
     </script>
       
-      <script src="{% static 'post/js/script.js' %}"></script>
+      <script src="{% static 'post/js/script.js' %}"></script> -->
 
 {% endblock %}

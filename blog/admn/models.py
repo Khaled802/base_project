@@ -16,3 +16,4 @@ class ForbiddenWord(models.Model):
         for forbidden_word in all_words:
             dictionary[forbidden_word.word] = forbidden_word.instead
         return dictionary
+

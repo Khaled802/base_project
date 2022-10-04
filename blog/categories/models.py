@@ -23,6 +23,9 @@ class Category(models.Model):
 
     def get_subscribe_url(self):
         return reverse('category.subscribe', args=[self.id])
+    
+    def get_subscribers(self):
+        return set([sub.user for sub in Subscribe.objects.filter(category=self)])
 
 
     def __str__(self) -> str:
@@ -38,6 +41,7 @@ class Subscribe(models.Model):
             return cls.objects.get(category=category , user=user)
         except:
             return None
+
    
     @classmethod
     def get_all_subscriptions(cls):
