@@ -9,7 +9,7 @@ from django.urls import reverse_lazy,reverse
 from django.contrib.admin.views.decorators import user_passes_test
 from .models import ForbiddenWord
 from post.models import posts_tags, Tag
-from .forms import PostModelForm
+from .forms import PostModelForm, EditForbiddenWord
 
 
 
@@ -168,6 +168,7 @@ class AddForbiddenWord(CreateView):
     fields = '__all__'
     template_name = 'admn/add_forbiddenword.html'
     success_url = reverse_lazy('add_forbiddenword')
+    extra_context= {'forbidden_words': ForbiddenWord.objects.all(), 'update': False}
 
 
 
@@ -204,3 +205,22 @@ def view_post(request, id):
     post = Post.get_post(id)
     tags=posts_tags.get_tags(post)
     return render(request, 'admn/view_post.html', context={'post':post , "tags":tags ,'like': is_like, 'dislike': is_dislike})
+
+def delete_forbiddenword(request, id):
+    ForbiddenWord.objects.get(id=id).delete()
+    return redirect(reverse('add_forbiddenword'))
+
+def update_forbidden_words(request, id):
+    if request.POST:
+        print(request.POST)
+        form  = EditForbiddenWord(request.POST, instance=ForbiddenWord.objects.get(id=id))
+        form.save()
+        form = EditForbiddenWord()
+        return  render(request, 'admn/add_forbiddenword.html', context={'form': form, 'forbidden_words': ForbiddenWord.objects.all()})
+
+    form = EditForbiddenWord(instance=ForbiddenWord.objects.get(id=id))
+    return render(request, 'admn/add_forbiddenword.html', context={'form': form, 'forbidden_words': ForbiddenWord.objects.all(), 'update': True})
+
+
+
+

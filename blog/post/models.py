@@ -1,5 +1,3 @@
-
-from tkinter.messagebox import NO
 from django.db import models
 from django.shortcuts import get_object_or_404, reverse
 from django.contrib.auth.models import User
@@ -12,6 +10,7 @@ class Post(models.Model):
     picture = models.ImageField(upload_to='images/')
     created_time = models.DateTimeField(auto_now_add=True)
     category=models.ForeignKey(Category , null = True , blank=True , on_delete=models.CASCADE , related_name='post_category')
+    num_of_likes=models.IntegerField(default=0)
     
     @classmethod
     def get_all_posts(cls):
@@ -46,9 +45,9 @@ class Post(models.Model):
         return cls.objects.filter(category= _category)
     
     @classmethod
-    def get_post_by_title(cls , passed_title):
+    def get_post_by_title(cls , passed_title:str):
         try:
-            return cls.objects.get(title = passed_title)
+            return cls.objects.filter(title=passed_title.strip())
         except:
             return None
 
@@ -79,7 +78,7 @@ class posts_tags(models.Model):
     def get_posts(cls , tag_name ):
         tag=Tag.get_tag(tag_name)
         try:
-            return cls.objects.filter(tag=tag )
+            return [tag.post for tag in cls.objects.filter(tag=tag)]
         except:
             return None
 

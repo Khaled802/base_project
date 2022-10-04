@@ -13,10 +13,47 @@
             <!-- Using the formset -->
             {{ form|crispy }}
             <div class="button">   
-                <input type="submit" value="Submit">
+                {% if update%} 
+                    <input type="submit" value="Update">
+                {% else %}
+                    <input type="submit" value="Add">
+                {% endif %}
             </div>
         </form>
 </div>
-    
+<div class="row">
+    <div class="col-md-7" style=" display:block; text-align: center; padding-left: 300px; width: 1200px;">
+        
+        <hr>
+        
+        <div class="card card-body" style=" height: auto;">
+
+            <table class="table table-sm">
+                
+                <tr>
+                    <th>Word</th>
+                    <th>instead</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                {% for forbidden_word in forbidden_words %}
+                
+                    <tr>
+                        <td> {{forbidden_word.word}} </td>
+                        <td> {{forbidden_word.instead}} </td>
+                        <td> <a class="btn btn btn-warning" href="{{ forbidden_word.update_forbiddenword_url }}"> Edit </a> </td>
+                        <td><a class="btn btn btn-danger" href="{{ forbidden_word.delete_forbiddenword_url }}"> Delete </a></td>
+                    </tr>
+                
+                {% endfor %}
+
+                
+            </table>
+            
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

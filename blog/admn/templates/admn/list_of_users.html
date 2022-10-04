@@ -24,7 +24,8 @@
                     
                     {% if user.id != i.id %}    
                     <tr>
-                        <td> {{i.username}} </td>
+                        
+                        <td> <a href="{{i.profile.get_profile_url}}">{{i.username}} </a></td>
                         <td> {{i.email}} </td>
                         {% if i.is_superuser %}    
                         <td> <u> Already_Admin </u> </td>

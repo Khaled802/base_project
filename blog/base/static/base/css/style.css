@@ -397,6 +397,26 @@ form .button input:hover{
         overflow-y: scroll;
     }
 }
+.btn{
+    width: max-content;
+    padding: 6px 10px;
+    margin-bottom: 0;
+    margin-right: 0;
+    background: #9b59b6;
+    border: none;
+    color: white;
+    border-radius: 30px;
+    font-size: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all .3s ease-in;
+
+  }
+.btn:hover{
+    background: transparent;
+    color: #9b59b6;
+    border: 2px solid #9b59b6;
+} 
 
 /* .card{
     width: 200px;

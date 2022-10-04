@@ -2,7 +2,9 @@
 let aside = document.querySelector('aside');
 let icon = aside.querySelector('.menu-icon');
 let li = aside.getElementsByClassName('nav-item');
-
+let list_it = document.getElementById('list-mm');
+let change = document.getElementById('change');
+let state = false;
 
 icon.onclick = ()=>{
     aside.classList.toggle('expand');

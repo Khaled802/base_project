@@ -19,7 +19,7 @@ def show_category(request, id):
     category= Category.get_category(id)
     related_posts = Post.related_posts(category)
     is_subscribe = Subscribe.get_subscribe(category, request.user)
-    return render(request, 'categories/show_category.html', context={'category': category , "related_posts":related_posts, 'subscribe': is_subscribe})
+    return render(request, 'categories/show_category.html', context={'category': category , "related_posts":related_posts, 'subscribe': is_subscribe, 'title': 'category-'+ category.title})
 
 #####From Admin Page#####
 class CreateCategory(SuccessMessageMixin , CreateView):

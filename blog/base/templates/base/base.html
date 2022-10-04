@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Changa&family=Dangrek&family=Edu+QLD+Beginner:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'base/css/style.css'%}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+   
     
     
 </head>
@@ -79,25 +80,30 @@
   <ul class="side-menu" style="padding-left: 20px;">
     <form action="">
       <li class="nav_s">
-        <a href="#">
+        <a href="{% url 'post.search' %}">
             <i class="bx bx-search"></i>
             <span style="padding-left: 40px;">search</span>
         </a>
     </li>
     </form>
       
-      <li class="nav-item">
-          <a href="#">
+      <li class="nav-item" id="list-mm">
+          <a id="change">
               <i class="bx bxs-dashboard"></i>
               <span>Categories</span>
               <i class="bx bxs-chevron-right"></i>
           </a>
           <ul class="sub-menu" style="padding-left: 0px; margin-left: auto 10px;"> 
             {% for category in categories %}
+            <style>.btn:hover{
+              background: transparent;
+              color: #9b59b6;
+              border: 2px solid #9b59b6;
+          }</style> 
             {% if user in category.get_subscribers %}
-            <li><a href="{{category.get_category_url}}">{{category}}</a><a href="{{ category.get_subscribe_url }}" class="btn btn-warning" style="font-size: 12px; padding: 1px; margin-left: 5px;">unsubscribe</a></li>
+            <li style="height: auto;"><a href="{{category.get_category_url}} " >{{category}}</a><a href="{{ category.get_subscribe_url }}" class="btn" style="padding: 5px; float: right; height: 30px;">unsubscribe</a></li>
             {% else %}
-            <li><a href="{{category.get_category_url}}">{{category}}</a><a href="{{ category.get_subscribe_url }}" class="btn btn-success" style="font-size: 12px; padding: 1px; margin-left: 5px;">subscribe</a></li>
+            <li style="height: auto;"><a href="{{category.get_category_url}}" style="margin-right: 10px;">{{category}}</a><a href="{{ category.get_subscribe_url }}" class="btn" style="padding: 5px; float: right; height: 30px;">subscribe</a></li>
             {% endif %}
             
             {% endfor %}

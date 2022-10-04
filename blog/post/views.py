@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import CommentForm
 from admn.models import ForbiddenWord
+from categories.models import Category, Subscribe
 
 
 # Create your views here.
@@ -23,22 +24,26 @@ class CreatePost(CreateView):
 
     
 def show_all_posts(request):
-    context={}
-    if(request.POST):
-        if(request.POST["post_title"]):
-            passed_title = request.POST["post_title"]
-            titled_post= Post.get_post_by_title(passed_title)
-            context["titled_post"]=titled_post
-
-        if(request.POST["post_tag"]):
-            passed_tag = request.POST["post_tag"]
-            tagged_posts= posts_tags.get_posts(passed_tag)
-            context["tagged_posts"]=tagged_posts
-        
-        return render(request , 'post/show_search.html' , context)
-
-    context = {'title': 'Posts', 'posts': Post.get_all_posts()}
-    return render(request, 'post/show_all_posts.html', context=context)
+    if request.user.is_anonymous!= True:
+        posts=[]
+        list_of_categories=Category.objects.all()
+        for cat in list_of_categories:
+            if Subscribe.get_subscribe(cat,request.user):
+                posts+=(list(Post.objects.filter(category=cat)))
+        if posts==[]:
+            mydata =update_likes() 
+            context = {'title': 'Posts', 'posts': mydata}
+            return render(request, 'post/show_all_posts.html', context=context)
+        else:
+            update_likes()
+            posts = Post.objects.filter(id__in=[o.id for o in posts]).order_by("-num_of_likes","-created_time")[:5]
+            # posts=list_to_queryset(posts)
+            context = {'title': 'Posts', 'posts': posts}
+            return render(request, 'post/show_all_posts.html', context=context)
+    else:
+        mydata = update_likes() 
+        context = {'title': 'Posts', 'posts': mydata}
+        return render(request, 'post/show_all_posts.html', context=context)
 
 def show_post(request, id):
     if request.POST:
@@ -111,3 +116,34 @@ def undislike_post(request, id):
     else:
         Dislike.get_dislike(Post.get_post(id), request.user).delete()
     return redirect(reverse('post.show', args=[id]))
+
+
+
+def update_likes():
+    posts=Post.objects.all() 
+    for post in posts : 
+        post.num_of_likes=Like.get_post_likes(post.id) 
+        post.save() 
+    mydata = Post.objects.order_by("-num_of_likes","created_time")[:5]
+    return mydata
+
+
+
+def search(request):
+    context={}
+    print(request.GET)
+    if(request.GET):
+        if(request.GET["post_title"]):
+            passed_title = request.GET["post_title"]
+            titled_post= Post.get_post_by_title(passed_title)
+            context["titled_post"]=titled_post
+
+        if(request.GET["post_tag"]):
+            passed_tag = request.GET["post_tag"]
+            tagged_posts= posts_tags.get_posts(passed_tag)
+            context["tagged_posts"]=tagged_posts
+        print('context', context)
+        return render(request ,'post/search.html' , context)
+    print('hi')
+    context = {'title': 'Posts'}
+    return render(request, 'post/search.html', context=context)

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 
 class ForbiddenWord(models.Model):
@@ -17,3 +17,8 @@ class ForbiddenWord(models.Model):
             dictionary[forbidden_word.word] = forbidden_word.instead
         return dictionary
 
+    def delete_forbiddenword_url(self):
+        return reverse('delete_forbiddenword', args=[self.id])
+
+    def update_forbiddenword_url(self):
+        return reverse('update_forbiddenword', args=[self.id])

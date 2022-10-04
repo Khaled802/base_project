@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container" style="margin: 10px auto;">
+    <div class="title">Search</div>
+    <form  method="get"  enctype="multipart/form-data" class="curd">
+        {% csrf_token %}
+        <label for="lname">Search by post title: :</label>
+        <input type="text" name="post_title" maxlength="100" class="textinput textInput form-control"  id="post_title">
+        <label for="lname">Search by post tags: :</label>
+        <input type="text" name="post_tag" maxlength="100" class="textinput textInput form-control" id="post_tag">
+        <div class="button">
+            <input type="submit" value="Search">
+        </div>
+    </form>
+</div>
+<hr>
+{{ post_tag }}
+{% if titled_post %}
+<h2 class="title" style="text-align:center">result by title</h2>
+<div class="cacontainer" style="height: auto; width: auto;">
+    
+    {% for post in titled_post %}
+    
+      <div class="card">
+        <a href="{{post.get_post_url}}">
+          <img src="{{ post.picture.url }}" alt="" >
+          <div class="intro">
+              <h4>{{ post.title|slice:":33" }}..</h4>
+              <p style="size: 0.5em; margin:auto; top:50%">{{ post.title }}</p>
+          </div>
+
+        </a>
+       
+    </div>
+  
+    {% endfor %}
+
+</div>
+{% endif %}
+<hr>
+{% if tagged_posts %}
+<h2 class="title" style="text-align:center">result by tag </h2>
+<div class="cacontainer" style="height: auto; width: auto;">
+    
+    {% for post in tagged_posts %}
+      <div class="card">
+        <a href="{{post.get_post_url}}">
+          <img src="{{ post.picture.url }}" alt="" >
+          <div class="intro">
+              <h4>{{ post.title|slice:":33" }}..</h4>
+              <p style="size: 0.5em; margin:auto; top:50%">{{ post.title }}</p>
+          </div>
+
+        </a>
+       
+    </div>
+  
+    {% endfor %}
+
+</div>
+{% endif %}
+{% endblock %}

@@ -57,6 +57,7 @@
       </div>
       <div class="content">
           <p>{{ post.details }}</p>
+          <p><span style="width: blod;">Created at:</span> {{ post.created_time}}</p>
           {% for tag in tags %}
           <span>{{ tag.tag }}</span> 
           {% endfor %}
