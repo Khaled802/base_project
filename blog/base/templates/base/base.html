@@ -38,7 +38,7 @@
             <li><a class="navbar-brand" href="{% url 'account.profile'%}" class="user">{{ user.username }}</a></li>
             <li><a class="navbar-brand" href="{% url 'account.logout' %}">Log Out</a></li>
           {% else %}
-            <li><a href="{% url 'login'%}">Log In</a></li>
+            <li><a href="{% url 'C_login'%}">Log In</a></li>
             <li><a href="{% url 'account.register'%}">Register</a></li>
           {% endif%}
 
@@ -88,18 +88,14 @@
     </form>
       
       <li class="nav-item" id="list-mm">
-          <a id="change">
+          <a href="#">
+
               <i class="bx bxs-dashboard"></i>
               <span>Categories</span>
               <i class="bx bxs-chevron-right"></i>
           </a>
           <ul class="sub-menu" style="padding-left: 0px; margin-left: auto 10px;"> 
             {% for category in categories %}
-            <style>.btn:hover{
-              background: transparent;
-              color: #9b59b6;
-              border: 2px solid #9b59b6;
-          }</style> 
             {% if user in category.get_subscribers %}
             <li style="height: auto;"><a href="{{category.get_category_url}} " >{{category}}</a><a href="{{ category.get_subscribe_url }}" class="btn" style="padding: 5px; float: right; height: 30px;">unsubscribe</a></li>
             {% else %}

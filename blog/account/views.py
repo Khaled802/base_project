@@ -4,7 +4,7 @@ from django.views.generic import CreateView
 from .models import CustomUser
 from django.urls import reverse_lazy, reverse
 from .forms import UserRegister, EditProfile
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login, authenticate
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django import views
@@ -16,7 +16,7 @@ def user_register(request):
         if form.is_valid():
              form.save()
              messages.success(request, 'create new account successfully')
-             return redirect('login')
+             return redirect('C_login')
         else:
             messages.error(request, 'there is an error in inforamtion')
         
@@ -31,7 +31,6 @@ def user_profile(request):
     
     if request.POST:
         edit = request.user.profile
-        print(request.POST)
         form  = EditProfile(request.POST, request.FILES, instance=edit)
         form.save()
         return redirect(reverse('account.profile'))
@@ -42,7 +41,6 @@ def user_profile(request):
 
 
 def show_profile(request, id):
-    print( request.user, CustomUser.get_profile_id(id))
     if request.user == CustomUser.get_profile_id(id).user:
         return user_profile(request)
     profile =  CustomUser.get_profile_id(id)
@@ -51,7 +49,7 @@ def show_profile(request, id):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('C_login')
 
 
 
@@ -62,6 +60,27 @@ def create_profile(user):
 
 
 
+def my_login(request):
+    # in case of we send the data 
+    if request.method == 'POST':
+        username = request.POST['username'].strip()
+        password = request.POST['password'].strip()
+        user = authenticate(request, username=username, password=password)
 
+        if user is None:
+            user = User.objects.get(username=username)
+            if user is None:
+                messages.error(request, "Your Username or Password or Both are incorrect....Check your inputs")
+                return redirect('C_login')
+            else:
+                messages.error(request, 'You are Blocked...Please Contact The Admin')
+                return redirect('C_login')    
+        else :
+            login(request, user)
+            messages.success(request, 'You are logged in Successfully')
+            return redirect('account.profile')
+        
+    else:
+        return render(request,'account/login.html')
 
 

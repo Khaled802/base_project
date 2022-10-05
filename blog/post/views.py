@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
@@ -7,6 +8,8 @@ from django.contrib import messages
 from .forms import CommentForm
 from admn.models import ForbiddenWord
 from categories.models import Category, Subscribe
+from django.http.request import HttpRequest
+
 
 
 # Create your views here.
@@ -147,3 +150,11 @@ def search(request):
     print('hi')
     context = {'title': 'Posts'}
     return render(request, 'post/search.html', context=context)
+
+
+
+def view_tag(request, tag):
+    new_request = HttpRequest()
+    new_request.GET['post_tag'] = tag
+    new_request.GET['post_title'] = None
+    return search(new_request)

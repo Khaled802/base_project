@@ -4,7 +4,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import CreatePost,show_all_posts, show_post, like_post, unlike_post \
-    , dislike_post, undislike_post, search
+    , dislike_post, undislike_post, search, view_tag
 
 urlpatterns = [
     path('create/', CreatePost.as_view(), name='post.create'),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('dislike/<int:id>', dislike_post, name='post.dislike'), 
     path('undislike/<int:id>', undislike_post, name='post.undislike'), 
     path('search/', search, name='post.search'), 
+    path('tag/<str:tag>', view_tag, name='view_tag')
 ]

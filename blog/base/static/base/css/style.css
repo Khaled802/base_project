@@ -373,7 +373,7 @@ form .button input{
     width: 100%;
     outline: none;
     color: #fff;
-    border: none;
+    /* border: none; */
     font-size: 18px;
     font-weight: 500;
     border-radius: 5px;
@@ -403,7 +403,7 @@ form .button input:hover{
     margin-bottom: 0;
     margin-right: 0;
     background: #9b59b6;
-    border: none;
+    border:  2px solid #9b59b6;
     color: white;
     border-radius: 30px;
     font-size: 12px;
@@ -412,12 +412,16 @@ form .button input:hover{
     transition: all .3s ease-in;
 
   }
+
 .btn:hover{
     background: transparent;
     color: #9b59b6;
     border: 2px solid #9b59b6;
 } 
 
+#change.hover {
+    cursor: pointer;
+}
 /* .card{
     width: 200px;
     height: 230px;
@@ -561,7 +565,7 @@ aside.expand .menu-icon>.bx-menu{
     bottom: 20px; /* Place the button at the bottom of the page */
     right: 30px; /* Place the button 30px from the right */
     z-index: 99; /* Make sure it does not overlap */
-    border: none; /* Remove borders */
+    /* border: none; Remove borders */
     outline: none; /* Remove outline */
     background-color: red; /* Set a background color */
     color: white; /* Text color */

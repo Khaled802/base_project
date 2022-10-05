@@ -12,6 +12,7 @@ from django.views.generic import ListView , DetailView
 from django.views.generic.edit import CreateView , UpdateView ,DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 # Create your views here.
 
@@ -55,6 +56,9 @@ class DeleteCategory(SuccessMessageMixin , DeleteView):
 @login_required
 def SubscribeCategory(request , category_id):
     selected_user = request.user
+    if selected_user.is_anonymous:
+        messages.warning(request, 'You should login first')
+        redirect(reverse('C_login'))
     selected_category = Category.get_category(category_id)
     selected_sub = Subscribe.get_subscribe(selected_category , selected_user)
 

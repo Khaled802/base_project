@@ -59,7 +59,10 @@
           <p>{{ post.details }}</p>
           <p><span style="width: blod;">Created at:</span> {{ post.created_time}}</p>
           {% for tag in tags %}
-          <span>{{ tag.tag }}</span> 
+          <a href="{% url 'view_tag' tag.tag %}">
+            <span>{{ tag.tag }}</span> 
+          </a>
+         
           {% endfor %}
       </div>
       <div class="comments_box">
