@@ -15,7 +15,7 @@ from django.http.request import HttpRequest
 # Create your views here.
 class CreatePost(CreateView):
     model = Post
-    fields = '__all__'
+    fields = ['title', 'details', 'picture','category']
     template_name = 'post/create_post.html'
     success_url = reverse_lazy('post.show_all')
     

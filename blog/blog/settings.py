@@ -157,3 +157,12 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # 
 TEMPLATES[0]['OPTIONS']['context_processors'].append("categories.context_processors.categories_processor")
 
+# send email using gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'blogteam235@gmail.com'
+EMAIL_HOST_PASSWORD = 'emmttqykxggjxziu' 
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'default from email'
+

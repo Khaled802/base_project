@@ -13,14 +13,19 @@ from django.views.generic.edit import CreateView , UpdateView ,DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.core.mail import send_mail
 
 # Create your views here.
 
 def show_category(request, id):
     category= Category.get_category(id)
     related_posts = Post.related_posts(category)
+    paginator = Paginator(related_posts , 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     is_subscribe = Subscribe.get_subscribe(category, request.user)
-    return render(request, 'categories/show_category.html', context={'category': category , "related_posts":related_posts, 'subscribe': is_subscribe, 'title': 'category-'+ category.title})
+    return render(request, 'categories/show_category.html', context={'category': category , "related_posts":related_posts, 'subscribe': is_subscribe, 'title': 'category-'+ category.title,  "page_obj":page_obj})
 
 #####From Admin Page#####
 class CreateCategory(SuccessMessageMixin , CreateView):
@@ -69,4 +74,12 @@ def SubscribeCategory(request , category_id):
     else:
         new_sub = Subscribe(category=selected_category , user=selected_user)
         new_sub.save()
+        send_mail(
+            'Category Subscribtion', #Subject
+            f'Hello, {request.user}\nYou have subscribed successfully in the {selected_category} Category\nWelcome Abroad.....', # Message
+            'blogteam235@gmail.com', # from gmail 
+            [request.user.email], # to gmail
+            fail_silently=False,
+        )
+        messages.success(request,'You are sent a mail to confirm subscribtion')
         return redirect(reverse('category.show', args=[category_id]))

@@ -10,6 +10,7 @@ from django.contrib.admin.views.decorators import user_passes_test
 from .models import ForbiddenWord
 from post.models import posts_tags, Tag
 from .forms import PostModelForm, EditForbiddenWord
+from django.core.mail import send_mail
 
 
 
@@ -53,6 +54,14 @@ def block_user(request,id):
     user.is_admin = False
     user.is_superuser = False
     user.save()
+    send_mail(
+        'Blocking at Blog', #Subject
+        f'Hello, {user}\n we are sorry to tell you are blocked\n for more informations you can call the admins', # Message
+        'blogteam235@gmail.com', # from gmail 
+        [user.email], # to gmail
+        fail_silently=False,
+    )
+    messages.success(request,f'sent mail to {user} by blocking')
     messages.error(request, f'{user.username} is Blocked.')
     return redirect('list_of_users')
 
@@ -73,17 +82,25 @@ def list_of_posts(request):
     return render(request,'admn/list_of_posts.html',context={'posts':posts})
 
 # create post 
-class CreatePost(CreateView):
-    model = Post
-    fields = '__all__'
-    template_name = 'post/create_post.html'
-    success_url = reverse_lazy('list_of_posts')
-    
-    extra_context = {'title': 'create post'}
-    def get_context_data(self, **kwargs):
-        context = super(CreatePost, self).get_context_data(**kwargs)
-        context.update(self.extra_context)
-        return context
+def create_post(request):
+    if(request.POST):
+        form = PostModelForm(request.POST , request.FILES)
+        form.save()
+        tags=request.POST["tags"].split()
+        postObj=Post.get_post_by_title(request.POST["title"])
+        for tag in tags:
+            tagObj = Tag.get_tag(tag)
+            if( not tagObj):
+                tagObj=Tag()
+                tagObj.name=tag
+                tagObj.save()
+            p=posts_tags()
+            p.post=postObj
+            p.tag=tagObj
+            p.save()
+        return redirect("list_of_posts")
+    form = PostModelForm()
+    return render(request , "post/create_post.html" , context={"form":form})
 
 # delete post 
 def delete_post(request,id):

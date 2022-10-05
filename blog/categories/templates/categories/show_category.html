@@ -24,7 +24,7 @@
   </div>
 </div>
 
-
+<!-- 
 {% if subscribe %} 
 <div class="cacontainer">
   {% for post in related_posts %}
@@ -42,8 +42,48 @@
   </div>
 
   {% endfor %}
-s
+{% endif %} -->
+
+
+ 
+{% if subscribe %} 
+<div class="cacontainer">
+  {% for post in page_obj %}
+  
+    <div class="card">
+      <a href="{{post.get_post_url}}">
+        <img src="{{ post.picture.url }}" alt="" >
+        <div class="intro">
+            <h4>{{ post.title|slice:":33" }}..</h4>
+            <p style="size: 0.5em; margin:auto; top:50%">{{ post.title }}</p>
+        </div>
+
+      </a>
+     
+  </div>
+
+  {% endfor %}
 {% endif %}
 
+
+{% if subscribe %}
+  {% if page_obj.has_previous %}
+    <a class="btn btn-outline-info mb-4" href="?page=1" >First</a>
+    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+      <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+      <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+  {% endif %}
+{% endif %}
 
 {% endblock %}

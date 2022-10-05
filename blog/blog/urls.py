@@ -30,6 +30,7 @@ urlpatterns = [
     path('categories/', include('categories.urls')),
     # path('admn/', staff_member_required(include('admn.urls'))),
     path('admn/', include('admn.urls')),
+    path('about/', include('base.urls'))
 ]
 
 if settings.DEBUG:
