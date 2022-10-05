@@ -19,5 +19,37 @@
     {% endfor %}
 
   </div>
-
+ 
+  <footer>
+    <div class="row" style="padding-left: 10px;">
+        <div class="col">
+            <h3>Our Social Blog <div class="underline"><span></span></div></h3>
+            <p>Social Blog that gets you updated with posts from all of your interests.</p>
+        </div>
+        <div class="col">
+            <h3>Navigate <div class="underline"><span></span></div></h3>
+            {% for category in categories %}
+              <span><a href="{{category.get_category_url}}">{{ category }}</a></span>
+            {% endfor %}
+        </div>
+        <div class="col">
+            <h3>Subscribe now <div class="underline"><span></span></div></h3>
+            <p>Join us now and get the full experience Subscribe to categories and get updated</p>
+            <p>Subscribe to categories and get updated with posts</p>
+            <a href="{% url 'account.register' %}" class="btn">Register</a>
+        </div>
+        <div class="col">
+            <h3>Contact Us <div class="underline"><span></span></div></h3>
+            <p class="email-id">SocialBlog@gmail.com</p>
+            <div class="social-icons">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-youtube"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-twitter"></i>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <p class="copyright">Copyright Social Blog © 2022. All rights reserved</p>
+  </footer>
 {% endblock %}

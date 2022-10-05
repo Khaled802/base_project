@@ -1,7 +1,7 @@
 from django.urls import path
 from admn.views import \
 show_dashboard,list_of_users,be_admin,block_user,unblock_user,list_of_posts,delete_post,edit_post,create_post,view_post,\
-like_post,unlike_post,dislike_post,undislike_post, AddForbiddenWord, delete_forbiddenword, update_forbidden_words
+like_post,unlike_post,dislike_post,undislike_post, AddForbiddenWord, delete_forbiddenword, update_forbidden_words, add_forbiddenword
 
 
 
@@ -23,7 +23,7 @@ urlpatterns = [
     path('undislike_post/<int:id>', undislike_post, name='undislike_post'),
 
 
-     path('add_forbiddenword/', AddForbiddenWord.as_view(), name='add_forbiddenword'),
+     path('add_forbiddenword/', add_forbiddenword, name='add_forbiddenword'),
      path('delete_forbiddenword/<int:id>', delete_forbiddenword, name='delete_forbiddenword'),
      path('update_forbiddenword/<int:id>', update_forbidden_words , name='update_forbiddenword')
 

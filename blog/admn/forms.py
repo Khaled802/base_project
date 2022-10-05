@@ -1,3 +1,4 @@
+from dataclasses import fields
 from post.models import Post
 from django import forms
 from .models import ForbiddenWord
@@ -10,6 +11,11 @@ class PostModelForm(forms.ModelForm):
         fields=['title' , 'details' , 'picture' , 'category' , 'tags']  
 
 class EditForbiddenWord(forms.ModelForm):
+    class Meta:
+        model = ForbiddenWord
+        fields = '__all__'
+
+class CreateForbiddenWord(forms.ModelForm):
     class Meta:
         model = ForbiddenWord
         fields = '__all__'

@@ -5,7 +5,8 @@ from django.urls import reverse
 
 class ForbiddenWord(models.Model):
     word = models.CharField(max_length=100)
-    instead = models.CharField(max_length=100)
+    instead = models.CharField(max_length=100, blank=True)
+
 
     def __str__(self):
         return self.title

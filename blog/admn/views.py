@@ -9,7 +9,7 @@ from django.urls import reverse_lazy,reverse
 from django.contrib.admin.views.decorators import user_passes_test
 from .models import ForbiddenWord
 from post.models import posts_tags, Tag
-from .forms import PostModelForm, EditForbiddenWord
+from .forms import PostModelForm, EditForbiddenWord, CreateForbiddenWord
 from django.core.mail import send_mail
 
 
@@ -187,6 +187,19 @@ class AddForbiddenWord(CreateView):
     success_url = reverse_lazy('add_forbiddenword')
     extra_context= {'forbidden_words': ForbiddenWord.objects.all(), 'update': False}
 
+def add_forbiddenword(request):
+    if request.POST:
+        word = request.POST['word']
+        instead = '*'*len(word)
+        if request.POST['instead']:
+            instead = request.POST['instead']
+        new_forbidden = ForbiddenWord()
+        new_forbidden.word = word
+        new_forbidden.instead = instead
+        new_forbidden.save()
+        return redirect(reverse('add_forbiddenword'))
+    form = CreateForbiddenWord()
+    return render(request, 'admn/add_forbiddenword.html', context={'title': 'manage forbidden words', 'form': form, 'forbidden_words': ForbiddenWord.objects.all(), 'update': False})
 
 
 def edit_post(request, id):
