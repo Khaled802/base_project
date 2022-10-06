@@ -59,10 +59,9 @@
           <p>{{ post.details }}</p>
           <p><span style="width: blod;">Created at:</span> {{ post.created_time}}</p>
           {% for tag in tags %}
-          <a href="{% url 'view_tag' tag.tag %}">
-            <span>{{ tag.tag }}</span> 
+          <a href="{% url 'view_tag' tag.tag %}" style="display: inline-block;">
+            <span>#{{ tag.tag }}</span> 
           </a>
-         
           {% endfor %}
       </div>
       <div class="comments_box">
@@ -107,13 +106,7 @@
             <a class="small mb-0 ms-2" href="{{ comment.user.profile.get_profile_url }}" >{{comment.user}}</a>
           </div>
           <div class="d-flex flex-row align-items-center">
-            {% if comment.user.is_superuser %}
-            <p class="small text-muted mb-0">admin</p>
-            {% else %}
-            <p class="small text-muted mb-0">member</p>
-            {% endif %}
-            <i class="far fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
-            <p class="small text-muted mb-0">3</p>
+            <p class="small text-muted mb-0">{{comment.created_time|timesince}}</p>
           </div>
         </div>
       </div>

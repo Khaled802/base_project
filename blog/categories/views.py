@@ -58,12 +58,13 @@ class DeleteCategory(SuccessMessageMixin , DeleteView):
     success_message = 'Category successfully Deleted'
     template_name = 'Categories/delete_category.html'
 
-@login_required
+
 def SubscribeCategory(request , category_id):
     selected_user = request.user
+    print(selected_user,selected_user.is_anonymous )
     if selected_user.is_anonymous:
-        messages.warning(request, 'You should login first')
-        redirect(reverse('C_login'))
+        messages.warning(request, 'You should login first to subscribe')
+        return redirect(reverse('C_login'))
     selected_category = Category.get_category(category_id)
     selected_sub = Subscribe.get_subscribe(selected_category , selected_user)
 

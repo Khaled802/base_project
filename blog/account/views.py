@@ -7,7 +7,7 @@ from .forms import UserRegister, EditProfile
 from django.contrib.auth import logout, login, authenticate
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django import views
+
 
 # Create your views here.
 def user_register(request):
@@ -68,7 +68,11 @@ def my_login(request):
         user = authenticate(request, username=username, password=password)
 
         if user is None:
-            user = User.objects.get(username=username)
+            try:
+                user = User.objects.get(username=username)
+            except:
+                messages.error(request, "The user is not exist, you can register now")
+                return redirect('account.register')
             if user is None:
                 messages.error(request, "Your Username or Password or Both are incorrect....Check your inputs")
                 return redirect('C_login')

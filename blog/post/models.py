@@ -1,7 +1,11 @@
+from datetime import datetime
+from email.policy import default
+from pyexpat import model
 from django.db import models
 from django.shortcuts import get_object_or_404, reverse
 from django.contrib.auth.models import User
-from categories.models import Category
+from categories.models import Category  
+# from django.contrib.postgres.search import SearchVector
 
 # Create your models here.
 class Post(models.Model):
@@ -47,7 +51,7 @@ class Post(models.Model):
     @classmethod
     def get_post_by_title(cls , passed_title:str):
         try:
-            return cls.objects.filter(title=passed_title.strip())
+            return cls.objects.filter(title__unaccent__icontains=passed_title.strip())
         except:
             return None
 
@@ -125,6 +129,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='post_comment', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='user_comment', on_delete=models.CASCADE)
     comment_text = models.TextField()
+    created_time = models.DateTimeField(auto_now_add=True,  blank=True,  null=True)
 
     def __str__(self) -> str:
         return self.comment_text
