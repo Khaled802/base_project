@@ -18,6 +18,7 @@ footer{
   line-height: 20px;
 }
 footer row{
+  
   width: 85%;
   margin: 20px;
   display: flex;
@@ -33,7 +34,7 @@ footer a{
 }
 footer .col{
   flex-basis: 25%;
-  padding: 0px;
+  padding: 20px;
 }
 footer.col:nth-child(2), .col:nth-child(3){
   flex-basis: 15%;

@@ -52,7 +52,7 @@ class Post(models.Model):
     @classmethod
     def get_post_by_title(cls , passed_title:str):
         try:
-            return cls.objects.filter(title__unaccent__icontains=passed_title.strip())
+            return cls.objects.filter(title__icontains=passed_title.strip())
         except:
             return None
 
@@ -88,8 +88,13 @@ class posts_tags(models.Model):
     
     @classmethod
     def get_posts(cls , tag_name ):
-        tag=Tag.get_tag(tag_name)
         try:
+            tag=Tag.objects.filter(name=tag_name)[0]
+        except:
+            return None
+        print(tag)
+        try:
+            print(cls.objects.filter(tag=tag))
             return [tag.post for tag in cls.objects.filter(tag=tag)]
         except:
             return None

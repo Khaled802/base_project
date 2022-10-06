@@ -1,4 +1,5 @@
 
+from http.client import HTTPResponse
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy, reverse
@@ -147,7 +148,7 @@ def search(request):
             context["tagged_posts"]=tagged_posts
         print('context', context)
         return render(request ,'post/search.html' , context)
-    print('hi')
+
     context = {'title': 'Posts'}
     return render(request, 'post/search.html', context=context)
 
