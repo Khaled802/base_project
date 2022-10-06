@@ -206,8 +206,6 @@ def edit_post(request, id):
     selected_post=Post.get_post(id)
 
     if(request.POST):
-        old_posts=posts_tags.objects.filter(post=selected_post)
-        old_posts.delete()
 
         form=PostModelForm(request.POST , request.FILES , instance=selected_post)
         form.save()
@@ -225,8 +223,13 @@ def edit_post(request, id):
             p.save()
         return redirect("list_of_posts")
 
+    old_post=posts_tags.objects.get(post=selected_post)
+    tags = posts_tags.get_tags(old_post)
+    tags_str = ''
+    if tags:
+        tags_str = [tag for tag in tags].join(' ')
     form=PostModelForm(instance=selected_post)
-    return render(request , "admn/edit_post.html" , context={"form":form})
+    return render(request , "admn/edit_post.html" , context={"form":form, 'tags': tags_str})
 
 # view the post 
 def view_post(request, id):
