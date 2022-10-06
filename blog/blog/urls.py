@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import reverse
+from django.shortcuts import reverse, redirect
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,7 +30,7 @@ urlpatterns = [
     path('categories/', include('categories.urls')),
     # path('admn/', staff_member_required(include('admn.urls'))),
     path('admn/', include('admn.urls')),
-    path('about/', include('base.urls'))
+    path('about/', include('base.urls')),
 ]
 
 if settings.DEBUG:

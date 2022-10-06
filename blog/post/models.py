@@ -1,6 +1,7 @@
 from datetime import datetime
 from email.policy import default
 from pyexpat import model
+from turtle import title
 from django.db import models
 from django.shortcuts import get_object_or_404, reverse
 from django.contrib.auth.models import User
@@ -55,7 +56,14 @@ class Post(models.Model):
         except:
             return None
 
-       
+    @classmethod
+    def get_A_post(cls, passed_title:str):
+        try:
+            return cls.objects.get(title=passed_title)
+        except:
+            return None
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=100)
     
@@ -75,8 +83,8 @@ class Tag(models.Model):
 
 
 class posts_tags(models.Model):
-    post = models.ForeignKey(Post , related_name='posts_tags' , on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag , related_name='posts_tags' , on_delete=models.CASCADE)
+    post = models.ForeignKey(Post , related_name='posts_tags' , on_delete=models.CASCADE,  null=True)
+    tag = models.ForeignKey(Tag , related_name='posts_tags' , on_delete=models.CASCADE, null=True)
     
     @classmethod
     def get_posts(cls , tag_name ):

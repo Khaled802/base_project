@@ -87,7 +87,7 @@ def create_post(request):
         form = PostModelForm(request.POST , request.FILES)
         form.save()
         tags=request.POST["tags"].split()
-        postObj=Post.get_post_by_title(request.POST["title"])
+        postObj=Post.get_A_post(request.POST["title"])
         for tag in tags:
             tagObj = Tag.get_tag(tag)
             if( not tagObj):
@@ -215,7 +215,7 @@ def edit_post(request, id):
         tags=request.POST["tags"].split()
         for tag in tags:
             tagObj = Tag.get_tag(tag)
-            if( not tagObj):
+            if(not tagObj):
                 tagObj=Tag()
                 tagObj.name=tag
                 tagObj.save()
