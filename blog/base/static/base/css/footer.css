@@ -10,7 +10,8 @@ footer{
   width: 100%;
   position: absolute;
   /* bottom: 0; */
-  padding: 100px 0 30px;
+  /* padding: 100px 0 30px; */
+  padding: 50px 5%;
   background: #9b59b6;
   color: #efefef;
   border-top-right-radius: 125px;

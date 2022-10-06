@@ -69,20 +69,23 @@ def my_login(request):
 
         if user is None:
             try:
-                user = User.objects.get(username=username)
+                user1 = User.objects.get(username=username)
             except:
                 messages.error(request, "The user is not exist, you can register now")
                 return redirect('account.register')
-            if user is None:
+            
+            if user1.is_active:
                 messages.error(request, "Your Username or Password or Both are incorrect....Check your inputs")
                 return redirect('C_login')
             else:
                 messages.error(request, 'You are Blocked...Please Contact The Admin')
-                return redirect('C_login')    
+                return redirect('C_login')
+
+                
         else :
             login(request, user)
             messages.success(request, 'You are logged in Successfully')
-            return redirect('account.profile')
+            return redirect('post.show_all')
         
     else:
         return render(request,'account/login.html')
