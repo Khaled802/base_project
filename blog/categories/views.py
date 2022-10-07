@@ -20,7 +20,7 @@ from django.core.mail import send_mail
 
 def show_category(request, id):
     category= Category.get_category(id)
-    related_posts = Post.related_posts(category)
+    related_posts = Post.related_posts(category).order_by("-created_time")
     paginator = Paginator(related_posts , 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
