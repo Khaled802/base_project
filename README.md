@@ -13,7 +13,7 @@
    - JavaScript
    - jQuery
 
-## Functionality
+## Functionalities
    - Authentication
    - Admin panal
      - CRUD on
@@ -31,6 +31,7 @@
    - pagenation
    - subscribe categories
    - show posts of the category
+   - send mail to user if he/she was blocked or he/she subscribed category
 
 ## Frontend components
    - sidebar (contains categories)
