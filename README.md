@@ -29,6 +29,8 @@
      - tag
      - title
    - pagenation
+   - subscribe categories
+   - show posts of the category
 
 ## Frontend components
    - sidebar (contains categories)
@@ -39,6 +41,11 @@
    - login and register
    - profile
    - control panel
+
+## more info
+   - This project is made during 7 days
+   - It is a final project at ITI
+
 
 
 
