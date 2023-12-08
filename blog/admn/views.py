@@ -14,7 +14,7 @@ from django.core.mail import send_mail
 
 
 
-# Create your views here.
+# Admin Views
 
 def check_admin(user):
    return user.is_superuser
